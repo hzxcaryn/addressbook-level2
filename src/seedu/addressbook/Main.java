@@ -14,6 +14,7 @@ import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.storage.StorageFile.InvalidStorageFilePathException;
 import seedu.addressbook.storage.StorageFile.StorageOperationException;
 import seedu.addressbook.ui.TextUi;
+import seedu.addressbook.ui.Formatter;
 
 
 /**
@@ -25,7 +26,8 @@ public class Main {
     /** Version info of the program. */
     public static final String VERSION = "AddressBook Level 2 - Version 1.0";
 
-    private TextUi ui;
+    private TextUi uiText;
+    private Formatter uiFormat;
     private StorageFile storage;
     private AddressBook addressBook;
 
@@ -52,13 +54,13 @@ public class Main {
      */
     private void start(String[] launchArgs) {
         try {
-            this.ui = new TextUi();
+            this.uiText = new TextUi();
             this.storage = initializeStorage(launchArgs);
             this.addressBook = storage.load();
-            ui.showWelcomeMessage(VERSION, storage.getPath());
+            uiText.showWelcomeMessage(VERSION, storage.getPath());
 
         } catch (InvalidStorageFilePathException | StorageOperationException e) {
-            ui.showInitFailedMessage();
+            uiText.showInitFailedMessage();
             /*
              * ==============NOTE TO STUDENTS=========================================================================
              * We are throwing a RuntimeException which is an 'unchecked' exception. Unchecked exceptions do not need
@@ -74,7 +76,7 @@ public class Main {
 
     /** Prints the Goodbye message and exits. */
     private void exit() {
-        ui.showGoodbyeMessage();
+        uiText.showGoodbyeMessage();
         System.exit(0);
     }
 
@@ -82,11 +84,11 @@ public class Main {
     private void runCommandLoopUntilExitCommand() {
         Command command;
         do {
-            String userCommandText = ui.getUserCommand();
+            String userCommandText = uiText.getUserCommand();
             command = new Parser().parseCommand(userCommandText);
             CommandResult result = executeCommand(command);
             recordResult(result);
-            ui.showResultToUser(result);
+            uiText.showResultToUser(result);
 
         } while (!ExitCommand.isExit(command));
     }
@@ -112,7 +114,7 @@ public class Main {
             storage.save(addressBook);
             return result;
         } catch (Exception e) {
-            ui.showToUser(e.getMessage());
+            uiFormat.showToUser(e.getMessage());
             throw new RuntimeException(e);
         }
     }
