@@ -17,7 +17,7 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
+            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie";
 
@@ -50,11 +50,31 @@ public class FindCommand extends Command {
         final List<ReadOnlyPerson> matchedPersons = new ArrayList<>();
         for (ReadOnlyPerson person : addressBook.getAllPersons()) {
             final Set<String> wordsInName = new HashSet<>(person.getName().getWordsInName());
-            if (!Collections.disjoint(wordsInName, keywords)) {
+            if (!isDisjointSetCaseInsensitive(wordsInName, keywords)) {
                 matchedPersons.add(person);
             }
         }
         return matchedPersons;
     }
 
+    /**
+     * Returns true if 2 Sets of Strings are disjoint (Case Insensitive)
+     */
+    private static boolean isDisjointSetCaseInsensitive(Set<String> set1, Set<String> set2) {
+        return Collections.disjoint(getLowercaseSet(set1), getLowercaseSet(set2));
+    }
+
+    /**
+     * Changes all set of strings to a set of lowercased Strings
+     *
+     * @param set
+     * @return set of lowercased Strings
+     */
+    private static Set<String> getLowercaseSet(Set<String> set) {
+        Set<String> lowercaseSet = new HashSet<String>();
+        for (String word : set) {
+            lowercaseSet.add(word.toLowerCase());
+        }
+        return lowercaseSet;
+    }
 }
