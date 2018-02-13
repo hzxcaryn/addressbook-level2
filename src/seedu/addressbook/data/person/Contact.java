@@ -8,9 +8,9 @@ public class Contact {
     private boolean isPrivate;
 
     /**
-     * Validates given phone number.
+     * Validates given contact.
      *
-     * @throws IllegalValueException if given phone string is invalid.
+     * @throws IllegalValueException if given contact string is invalid.
      */
     public Contact(String data, boolean isPrivate, String validationRegex, String constraints) throws IllegalValueException {
         this.isPrivate = isPrivate;
@@ -22,7 +22,7 @@ public class Contact {
     }
 
     /**
-     * Returns true if the given string is a valid person phone number.
+     * Returns true if the given string is a valid contact of person.
      */
     public static boolean isValid(String test, String validationRegex) {
         return test.matches(validationRegex);
