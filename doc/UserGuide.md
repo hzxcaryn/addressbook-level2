@@ -68,6 +68,19 @@ Examples:
 * `find betsy tiM JoHn`<br>
   Returns Any person having names `Betsy`, `Tim`, or `John`
 
+### Finding all persons that contains all specified tags: `findtag`
+Finds persons whose tags matches all the given tags.<br>
+Format: `find TAG [MORE_TAGS]`
+
+> The search is case sensitive, the order of the keywords does not matter, only the tags are searched,
+and persons matching all tags will be returned (i.e. `AND` search).
+
+Examples:
+* `findtag Family`<br>
+  Returns all persons with `Family` tag.
+* `findtag Family Female`<br>
+  Returns all persons with tags `Family` and `Female`.
+
 ### Deleting a person : `delete`
 Deletes the specified person from the address book. Irreversible.<br>
 Format: `delete INDEX`
